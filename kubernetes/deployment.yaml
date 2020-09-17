@@ -1,0 +1,30 @@
+# Update <REGISTRY> <NAMESPACE> values before use
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gov
+  labels:
+    app: gov
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gov
+  template:
+    metadata:
+      labels:
+        app: gov
+    spec:
+      containers:
+      - name: gov
+        image:  uk.icr.io/ttmicroservices/microservices:latest
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+        env:
+        - name: CLOUDANT_URL
+          valueFrom:
+            secretKeyRef:
+              name: cloudant
+              key: 6510204a-14fc-11ea-bf05-aef64c2af0d9
+              optional: true
